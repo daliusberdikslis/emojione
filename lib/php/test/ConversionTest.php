@@ -4,25 +4,30 @@
 Tests based on lib/tests.md
 */
 
+declare(strict_types=1);
+
 namespace Emojione\Test;
 
-use Emojione\Emojione;
+require_once '../../../vendor/autoload.php';
 
-class ConversionTest extends \PHPUnit_Framework_TestCase
+use Emojione\Emojione;
+use PHPUnit\Framework\TestCase;
+
+final class ConversionTest extends TestCase
 {
 
-    private $emojiVersion = '4.5';
+    private string $emojiVersion = '4.5';
 
     /**
      * test single unicode character
      *
      * @return void
      */
-    public function testSingleUnicodeCharacter()
+    public function testSingleUnicodeCharacter(): void
     {
-        $unicode   = '🐌';
+        $unicode = '🐌';
         $shortname = ':snail:';
-        $image     = '<img class="emojione" alt="🐌" title=":snail:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f40c.png"/>';
+        $image = '<img class="emojione" alt="🐌" title=":snail:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f40c.png"/>';
         $image_fix = '<img class="emojione" alt="&#x1f40c;" title=":snail:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f40c.png"/>';
 
         $this->assertEquals(Emojione::toShort($unicode), $shortname);
@@ -40,9 +45,9 @@ class ConversionTest extends \PHPUnit_Framework_TestCase
      */
     public function testShortnameInsideSentence()
     {
-        $unicode   = 'The 🦄 is EmojiOne\'s official mascot.';
+        $unicode = 'The 🦄 is EmojiOne\'s official mascot.';
         $shortname = 'The :unicorn: is EmojiOne\'s official mascot.';
-        $image     = 'The <img class="emojione" alt="🦄" title=":unicorn:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f984.png"/> is EmojiOne\'s official mascot.';
+        $image = 'The <img class="emojione" alt="🦄" title=":unicorn:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f984.png"/> is EmojiOne\'s official mascot.';
         $image_fix = 'The <img class="emojione" alt="&#x1f984;" title=":unicorn:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f984.png"/> is EmojiOne\'s official mascot.';
 
         $this->assertEquals(Emojione::toShort($unicode), $shortname);
@@ -60,9 +65,9 @@ class ConversionTest extends \PHPUnit_Framework_TestCase
      */
     public function testShortnameInsideSentenceWithComma()
     {
-        $unicode   = 'The 🦄, is EmojiOne\'s official mascot.';
+        $unicode = 'The 🦄, is EmojiOne\'s official mascot.';
         $shortname = 'The :unicorn:, is EmojiOne\'s official mascot.';
-        $image     = 'The <img class="emojione" alt="🦄" title=":unicorn:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f984.png"/>, is EmojiOne\'s official mascot.';
+        $image = 'The <img class="emojione" alt="🦄" title=":unicorn:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f984.png"/>, is EmojiOne\'s official mascot.';
         $image_fix = 'The <img class="emojione" alt="&#x1f984;" title=":unicorn:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f984.png"/>, is EmojiOne\'s official mascot.';
 
         $this->assertEquals(Emojione::toShort($unicode), $shortname);
@@ -80,9 +85,9 @@ class ConversionTest extends \PHPUnit_Framework_TestCase
      */
     public function testShortnameAtStartOfSentence()
     {
-        $unicode   = '🐌 mail.';
+        $unicode = '🐌 mail.';
         $shortname = ':snail: mail.';
-        $image     = '<img class="emojione" alt="🐌" title=":snail:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f40c.png"/> mail.';
+        $image = '<img class="emojione" alt="🐌" title=":snail:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f40c.png"/> mail.';
         $image_fix = '<img class="emojione" alt="&#x1f40c;" title=":snail:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f40c.png"/> mail.';
 
         $this->assertEquals(Emojione::toShort($unicode), $shortname);
@@ -100,9 +105,9 @@ class ConversionTest extends \PHPUnit_Framework_TestCase
      */
     public function testShortnameAtStartOfSentenceWithApostrophe()
     {
-        $unicode   = '🐌\'s are cool!';
+        $unicode = '🐌\'s are cool!';
         $shortname = ':snail:\'s are cool!';
-        $image     = '<img class="emojione" alt="🐌" title=":snail:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f40c.png"/>\'s are cool!';
+        $image = '<img class="emojione" alt="🐌" title=":snail:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f40c.png"/>\'s are cool!';
         $image_fix = '<img class="emojione" alt="&#x1f40c;" title=":snail:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f40c.png"/>\'s are cool!';
 
         $this->assertEquals(Emojione::toShort($unicode), $shortname);
@@ -120,9 +125,9 @@ class ConversionTest extends \PHPUnit_Framework_TestCase
      */
     public function testShortnameAtEndOfSentence()
     {
-        $unicode   = 'EmojiOne\'s official mascot is 🦄.';
+        $unicode = 'EmojiOne\'s official mascot is 🦄.';
         $shortname = 'EmojiOne\'s official mascot is :unicorn:.';
-        $image     = 'EmojiOne\'s official mascot is <img class="emojione" alt="🦄" title=":unicorn:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f984.png"/>.';
+        $image = 'EmojiOne\'s official mascot is <img class="emojione" alt="🦄" title=":unicorn:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f984.png"/>.';
         $image_fix = 'EmojiOne\'s official mascot is <img class="emojione" alt="&#x1f984;" title=":unicorn:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f984.png"/>.';
 
         $this->assertEquals(Emojione::toShort($unicode), $shortname);
@@ -140,9 +145,9 @@ class ConversionTest extends \PHPUnit_Framework_TestCase
      */
     public function testShortnameAtEndOfSentenceWithAlternatePunctuation()
     {
-        $unicode   = 'EmojiOne\'s official mascot is 🦄!';
+        $unicode = 'EmojiOne\'s official mascot is 🦄!';
         $shortname = 'EmojiOne\'s official mascot is :unicorn:!';
-        $image     = 'EmojiOne\'s official mascot is <img class="emojione" alt="🦄" title=":unicorn:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f984.png"/>!';
+        $image = 'EmojiOne\'s official mascot is <img class="emojione" alt="🦄" title=":unicorn:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f984.png"/>!';
         $image_fix = 'EmojiOne\'s official mascot is <img class="emojione" alt="&#x1f984;" title=":unicorn:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f984.png"/>!';
 
         $this->assertEquals(Emojione::toShort($unicode), $shortname);
@@ -160,9 +165,9 @@ class ConversionTest extends \PHPUnit_Framework_TestCase
      */
     public function testShortnameAtEndOfSentenceWithPreceedingColon()
     {
-        $unicode   = 'EmojiOne\'s official mascot: 🦄';
+        $unicode = 'EmojiOne\'s official mascot: 🦄';
         $shortname = 'EmojiOne\'s official mascot: :unicorn:';
-        $image     = 'EmojiOne\'s official mascot: <img class="emojione" alt="🦄" title=":unicorn:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f984.png"/>';
+        $image = 'EmojiOne\'s official mascot: <img class="emojione" alt="🦄" title=":unicorn:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f984.png"/>';
         $image_fix = 'EmojiOne\'s official mascot: <img class="emojione" alt="&#x1f984;" title=":unicorn:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f984.png"/>';
 
         $this->assertEquals(Emojione::toShort($unicode), $shortname);
@@ -180,7 +185,7 @@ class ConversionTest extends \PHPUnit_Framework_TestCase
      */
     public function testShortnameInsideOfImgTag()
     {
-        $unicode   = 'The <img class="emojione" alt="🦄" title=":unicorn:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f984.png" /> is EmojiOne\'s official mascot.';
+        $unicode = 'The <img class="emojione" alt="🦄" title=":unicorn:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f984.png" /> is EmojiOne\'s official mascot.';
         $shortname = 'The <img class="emojione" alt=":unicorn:" title=":unicorn:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f984.png" /> is EmojiOne\'s official mascot.';
 
         $this->assertEquals(Emojione::toShort($unicode), $unicode);
@@ -196,17 +201,17 @@ class ConversionTest extends \PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function testSingleSmiley()
+    public function testSingleSmiley(): void
     {
         // enable ASCII conversion
         $default_ascii = Emojione::$ascii;
         Emojione::$ascii = true;
 
-        $ascii       = ':-)';
-        $unicode     = '🙂';
+        $ascii = ':-)';
+        $unicode = '🙂';
         $unicode_fix = '&#x1f642;';
-        $shortname   = ':slight_smile:';
-        $image       = '<img class="emojione" alt="&#x1f642;" title=":slight_smile:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f642.png"/>';
+        $shortname = ':slight_smile:';
+        $image = '<img class="emojione" alt="&#x1f642;" title=":slight_smile:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f642.png"/>';
 
         $this->assertEquals(Emojione::shortnameToImage($shortname), $image);
         $this->assertEquals(Emojione::shortnameToImage($ascii), $image);
@@ -252,12 +257,12 @@ class ConversionTest extends \PHPUnit_Framework_TestCase
         $default_ascii = Emojione::$ascii;
         Emojione::$ascii = true;
 
-        $ascii       = ';) :p :*';
-        $ascii_fix   = ';^) d: :^*';
-        $unicode     = '😉 😛 😘';
+        $ascii = ';) :p :*';
+        $ascii_fix = ';^) :b :^*';
+        $unicode = '😉 😛 😘';
         $unicode_fix = '&#x1f609; &#x1f61b; &#x1f618;';
-        $shortname   = ':wink: :stuck_out_tongue: :kissing_heart:';
-        $image       = '<img class="emojione" alt="&#x1f609;" title=":wink:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f609.png"/> <img class="emojione" alt="&#x1f61b;" title=":stuck_out_tongue:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f61b.png"/> <img class="emojione" alt="&#x1f618;" title=":kissing_heart:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f618.png"/>';
+        $shortname = ':wink: :stuck_out_tongue: :kissing_heart:';
+        $image = '<img class="emojione" alt="&#x1f609;" title=":wink:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f609.png"/> <img class="emojione" alt="&#x1f61b;" title=":stuck_out_tongue:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f61b.png"/> <img class="emojione" alt="&#x1f618;" title=":kissing_heart:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f618.png"/>';
 
         $this->assertEquals(Emojione::shortnameToImage($shortname), $image);
         $this->assertEquals(Emojione::shortnameToImage($ascii), $image);
@@ -282,12 +287,12 @@ class ConversionTest extends \PHPUnit_Framework_TestCase
         $default_ascii = Emojione::$ascii;
         Emojione::$ascii = true;
 
-        $ascii       = ':\\ is our confused smiley.';
-        $ascii_fix   = '=L is our confused smiley.';
-        $unicode     = '😕 is our confused smiley.';
+        $ascii = ':\\ is our confused smiley.';
+        $ascii_fix = '=L is our confused smiley.';
+        $unicode = '😕 is our confused smiley.';
         $unicode_fix = '&#x1f615; is our confused smiley.';
-        $shortname   = ':confused: is our confused smiley.';
-        $image       = '<img class="emojione" alt="&#x1f615;" title=":confused:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f615.png"/> is our confused smiley.';
+        $shortname = ':confused: is our confused smiley.';
+        $image = '<img class="emojione" alt="&#x1f615;" title=":confused:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f615.png"/> is our confused smiley.';
 
         $this->assertEquals(Emojione::shortnameToImage($shortname), $image);
         $this->assertEquals(Emojione::shortnameToImage($ascii), $image);
@@ -312,12 +317,12 @@ class ConversionTest extends \PHPUnit_Framework_TestCase
         $default_ascii = Emojione::$ascii;
         Emojione::$ascii = true;
 
-        $ascii       = 'Our smiley to represent joy is :\')';
-        $ascii_fix   = 'Our smiley to represent joy is :\'-)';
-        $unicode     = 'Our smiley to represent joy is 😂';
+        $ascii = 'Our smiley to represent joy is :\')';
+        $ascii_fix = 'Our smiley to represent joy is :\'-)';
+        $unicode = 'Our smiley to represent joy is 😂';
         $unicode_fix = 'Our smiley to represent joy is &#x1f602;';
-        $shortname   = 'Our smiley to represent joy is :joy:';
-        $image       = 'Our smiley to represent joy is <img class="emojione" alt="&#x1f602;" title=":joy:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f602.png"/>';
+        $shortname = 'Our smiley to represent joy is :joy:';
+        $image = 'Our smiley to represent joy is <img class="emojione" alt="&#x1f602;" title=":joy:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f602.png"/>';
 
         $this->assertEquals(Emojione::shortnameToImage($shortname), $image);
         $this->assertEquals(Emojione::shortnameToImage($ascii), $image);
@@ -342,12 +347,12 @@ class ConversionTest extends \PHPUnit_Framework_TestCase
         $default_ascii = Emojione::$ascii;
         Emojione::$ascii = true;
 
-        $ascii       = 'The reverse is the joy smiley is the cry smiley :\'(.';
-        $ascii_fix   = 'The reverse is the joy smiley is the cry smiley ;-(.';
-        $unicode     = 'The reverse is the joy smiley is the cry smiley 😢.';
+        $ascii = 'The reverse is the joy smiley is the cry smiley :\'(.';
+        $ascii_fix = 'The reverse is the joy smiley is the cry smiley ;-(.';
+        $unicode = 'The reverse is the joy smiley is the cry smiley 😢.';
         $unicode_fix = 'The reverse is the joy smiley is the cry smiley &#x1f622;.';
-        $shortname   = 'The reverse is the joy smiley is the cry smiley :cry:.';
-        $image       = 'The reverse is the joy smiley is the cry smiley <img class="emojione" alt="&#x1f622;" title=":cry:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f622.png"/>.';
+        $shortname = 'The reverse is the joy smiley is the cry smiley :cry:.';
+        $image = 'The reverse is the joy smiley is the cry smiley <img class="emojione" alt="&#x1f622;" title=":cry:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f622.png"/>.';
 
         $this->assertEquals(Emojione::shortnameToImage($shortname), $image);
         $this->assertEquals(Emojione::shortnameToImage($ascii), $image);
@@ -372,12 +377,12 @@ class ConversionTest extends \PHPUnit_Framework_TestCase
         $default_ascii = Emojione::$ascii;
         Emojione::$ascii = true;
 
-        $ascii       = 'This is the "flushed" smiley: :$.';
-        $ascii_fix   = 'This is the "flushed" smiley: =$.';
-        $unicode     = 'This is the "flushed" smiley: 😳.';
+        $ascii = 'This is the "flushed" smiley: :$.';
+        $ascii_fix = 'This is the "flushed" smiley: =$.';
+        $unicode = 'This is the "flushed" smiley: 😳.';
         $unicode_fix = 'This is the "flushed" smiley: &#x1f633;.';
-        $shortname   = 'This is the "flushed" smiley: :flushed:.';
-        $image       = 'This is the "flushed" smiley: <img class="emojione" alt="&#x1f633;" title=":flushed:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f633.png"/>.';
+        $shortname = 'This is the "flushed" smiley: :flushed:.';
+        $image = 'This is the "flushed" smiley: <img class="emojione" alt="&#x1f633;" title=":flushed:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f633.png"/>.';
 
         $this->assertEquals(Emojione::shortnameToImage($shortname), $image);
         $this->assertEquals(Emojione::shortnameToImage($ascii), $image);
@@ -424,12 +429,12 @@ class ConversionTest extends \PHPUnit_Framework_TestCase
         $default_ascii = Emojione::$ascii;
         Emojione::$ascii = true;
 
-        $ascii       = 'Please log-in with user:pass as your credentials :P.';
-        $ascii_fix   = 'Please log-in with user:pass as your credentials d:.';
-        $unicode     = 'Please log-in with user:pass as your credentials 😛.';
+        $ascii = 'Please log-in with user:pass as your credentials :P.';
+        $ascii_fix = 'Please log-in with user:pass as your credentials :b.';
+        $unicode = 'Please log-in with user:pass as your credentials 😛.';
         $unicode_fix = 'Please log-in with user:pass as your credentials &#x1f61b;.';
-        $shortname   = 'Please log-in with user:pass as your credentials :stuck_out_tongue:.';
-        $image       = 'Please log-in with user:pass as your credentials <img class="emojione" alt="&#x1f61b;" title=":stuck_out_tongue:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f61b.png"/>.';
+        $shortname = 'Please log-in with user:pass as your credentials :stuck_out_tongue:.';
+        $image = 'Please log-in with user:pass as your credentials <img class="emojione" alt="&#x1f61b;" title=":stuck_out_tongue:" src="https://cdn.jsdelivr.net/emojione/assets/' . $this->emojiVersion . '/png/32/1f61b.png"/>.';
 
         $this->assertEquals(Emojione::shortnameToImage($shortname), $image);
         $this->assertEquals(Emojione::shortnameToImage($ascii), $image);

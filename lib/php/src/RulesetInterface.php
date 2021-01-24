@@ -9,33 +9,33 @@ interface RulesetInterface
      *
      * @return array The shortcode unicode rules
      */
-    public function getShortcodeReplace();
+    public function getShortcodeReplace(): array;
 
     /**
      * Returns the ascii unicode replacement rules
      *
      * @return array The ascii unicode rules
      */
-    public function getAsciiReplace();
+    public function getAsciiReplace(): array;
 
     /**
      * Returns the unicode shortcode replacement rules
      *
      * @return array The unicode shortcode rules
      */
-    public function getUnicodeReplace();
-	
-	/**
+    public function getUnicodeReplace(): array;
+
+    /**
      * Returns the unicode shortcode greedy replacement rules
      *
      * @return array The unicode shortcode greedy rules
      */
-    public function getUnicodeReplaceGreedy();
+    public function getUnicodeReplaceGreedy(): array;
 
     /**
      * Returns the regexp to find ascii smilies
      *
      * @return string The regexp
      */
-    public function getAsciiRegexp();
+    public function getAsciiRegexp(): string;
 }
